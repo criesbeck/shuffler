@@ -39,6 +39,7 @@ button {
   position: relative;
   transition: top 1.5s;
   top: 0;
+  width: 12em;
 }
 
 #a { background-color: #7FFFD4; }  /* aqua */
