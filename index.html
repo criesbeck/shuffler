@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Team Shuffler</title>
+<link rel="stylesheet" href="shuffle.css" media="screen">
+</head>
+
+<body>
+  <div id="page">
+    <div id="header">
+      <h1>Team Shuffler</h1>
+    </div>
+
+    <p><button id="shuffle">Shuffle</button></p>
+    
+    <div id="content">		
+      <ul id="choices">
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // IDs must be single character and styled in shuffle.css
+    const items = {
+      a: 'Aqua',
+      b: 'Blue',
+      c: 'Brown',
+      d: 'Coral',
+      f: 'Gold',
+      g: 'Green',
+      i: 'Indigo',
+      l: 'Lavender',
+      m: 'Maroon',
+      n: 'Navy',
+      o: 'Orange',
+      p: 'Purple',
+      r: 'Red',
+      y: 'Yellow'
+    };
+
+    // if any duplicate or invalid ids, remove and reset hash
+    // return valid ids
+    const verify = (ids) => {
+      if (ids.every((id, i) => items[id] && ids.lastIndexOf(id) === 1)) {
+        return ids;
+      }
+      if (ids.some(id => !items[id])) {
+        alert(`Unknown IDs: ${ids.filter(id => !items[id]).join(',')}`);
+      }
+      const newIds = ids.filter((id, i) => ids.indexOf(id) === i && items[id]);
+      window.location = `#${newIds.join('')}`;
+      return newIds;
+    };
+  
+    const getIds = () => verify((location.hash.slice(1) || 'bgopry').split(''));
+
+    // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+    const shuffle = (v) => {
+      for(let j, x, i = v.length; i; j = parseInt(Math.random() * i), x = v[--i], v[i] = v[j], v[j] = x);
+      return v;
+    };
+
+    const sameIds = (ids1, ids2) => (
+      ids1.every(id1 => ids2.includes(id1)) && ids2.every(id2 => ids1.includes(id2))
+    );
+
+    // Global list of initial IDs
+    let initIds = [];
+
+    const initHtml = (ids) => {
+      initIds = ids;
+      document.querySelector('#choices').innerHTML = 
+        ids.map(id => `<li id="${id}"><span>${items[id]}</span></li>`).join('');
+    }
+
+    // re-position elements relative to their first position
+    const arrange = (ids) => {
+      ids.forEach((id, i) => {
+        const elt = document.getElementById(id);
+        const offset = i - initIds.indexOf(id);
+        elt.style.top = `${offset * elt.clientHeight}px`;
+      });
+    };
+    
+    const update = () => {
+      const ids = getIds();
+      if (sameIds(ids, initIds)) {
+        arrange(ids);
+      }
+      else {
+        initHtml(ids);
+      }
+    };
+  
+    document.getElementById('shuffle').addEventListener('click', () => {
+      window.location = `#${shuffle(getIds()).join('')}`;
+    });
+
+    addEventListener('hashchange', update);
+
+    update();
+
+  </script>
+</body>
+</html>
