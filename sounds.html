@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Sound Off</title>
+<link rel="stylesheet" href="shuffle.css" media="screen">
+</head>
+
+<body>
+  <div id="page">
+
+    <!-- clips from freesound -->
+    <p>
+      <button class="sound" data-src="./330527__dobroide__20151207_brassfanfareloop.mp3">
+        Fanfare 1
+      </button>
+      
+      <button class="sound" data-src="./562809__richheard__fanfare-4.mp3">
+        Fanfare 2
+      </button>
+      
+      <button class="sound" data-src="./554__bebeto__ambient-loop.mp3">
+        Jazz 1
+      </button>
+      
+      <button class="sound" data-src="./464916__plasterbrain__jazz-loop-and-now-for-our-adult-hour.mp3">
+        Jazz 2
+      </button>
+    </p>
+          
+  </div>
+
+  <script>
+
+    const btns = Array.from(document.querySelectorAll('.sound'));
+
+    const setCurrentButton = (btn) => {
+      btns.forEach(elt => {
+        elt.classList.toggle('playing', elt === btn);
+      });
+    };
+
+    const audio = new Audio();
+    let currentSource = null;
+    
+    btns.forEach(elt => {
+        elt.addEventListener('click', (evt) => {
+          const btn = evt.target;
+          const src = btn.dataset.src;
+          if (btn.classList.contains('playing')) {
+            if (audio.paused) {
+              audio.play();
+            } else {
+              audio.pause();
+            }
+          } else {
+            setCurrentButton(btn);
+            audio.src = src;
+            audio.play();
+          }
+      });
+    });   
+
+  </script>
+</body>
+</html>
