@@ -4,30 +4,34 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Sound Off</title>
-<link rel="stylesheet" href="shuffle.css" media="screen">
+<link rel="stylesheet" href="sounds.css" media="screen">
 </head>
 
 <body>
   <div id="page">
 
     <!-- clips from freesound -->
-    <p>
-      <button class="sound" data-src="./330527__dobroide__20151207_brassfanfareloop.mp3">
-        Fanfare 1
-      </button>
-      
-      <button class="sound" data-src="./562809__richheard__fanfare-4.mp3">
-        Fanfare 2
-      </button>
-      
-      <button class="sound" data-src="./554__bebeto__ambient-loop.mp3">
-        Jazz 1
-      </button>
-      
-      <button class="sound" data-src="./464916__plasterbrain__jazz-loop-and-now-for-our-adult-hour.mp3">
-        Jazz 2
-      </button>
-    </p>
+
+    <div id="sound-bar" class="radio-toolbar">
+      <input type="radio" id="sound-1" name="sound" value="./330527__dobroide__20151207_brassfanfareloop.mp3">
+      <label for="sound-1">Fanfare 1</label>
+  
+      <input type="radio" id="sound-2" name="sound" value="./562809__richheard__fanfare-4-trimmed.mp3">
+      <label for="sound-2">Fanfare 2</label>
+  
+      <input type="radio" id="sound-3" name="sound" value="./554__bebeto__ambient-loop.mp3">
+      <label for="sound-3">Jazz 1</label> 
+  
+      <input type="radio" id="sound-4" name="sound" value="./464916__plasterbrain__jazz-loop-and-now-for-our-adult-hour.mp3">
+      <label for="sound-4">Jazz 2</label> 
+    </div>
+
+    <div id="control-bar" class="radio-toolbar">
+      <input type="checkbox" id="play" disabled>
+      <label id="play-label" for="play">Play</label> 
+      <input type="checkbox" id="loop">
+      <label for="loop">Loop</label> 
+    </div>
           
   </div>
 
@@ -43,6 +47,45 @@
 
     const audio = new Audio();
     let currentSource = null;
+
+    const playButton = document.querySelector('#play');
+    const playLabel = document.querySelector('#play-label');
+    const loopButton = document.querySelector('#loop');
+
+    const updatePlayButton = (playing) => {
+      if (playing) {
+        playButton.disabled = false;
+        playButton.checked = true;
+        playLabel.innerHTML = 'Pause';
+      } else {
+        playButton.checked = false;
+        playLabel.innerHTML = 'Play';
+      }
+    };
+
+    document.querySelector('#sound-bar').addEventListener('change', (evt) => {
+      audio.src = evt.target.value;
+      updatePlayButton(true);
+      audio.play();
+    })
+
+    playButton.addEventListener('change', (evt) => {
+      if (evt.target.checked) {
+        updatePlayButton(true);
+        audio.play();
+      } else {
+        updatePlayButton(false);
+        audio.pause();
+      }
+    });
+
+    loopButton.addEventListener('change', (evt) => {
+      audio.loop = evt.target.checked;
+    });
+
+    audio.addEventListener('ended', () => {
+      updatePlayButton(false);
+    });
     
     btns.forEach(elt => {
         elt.addEventListener('click', (evt) => {
@@ -60,7 +103,9 @@
             audio.play();
           }
       });
-    });   
+    });  
+    
+    document.getElementById('loop').addEventListener('click', () => { audio.loop = true});
 
   </script>
 </body>
