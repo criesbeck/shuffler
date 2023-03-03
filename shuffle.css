@@ -59,7 +59,7 @@ button {
 
 #choices li {
   position: relative;
-  transition: top 1.5s;
+  transition: top 3s;
   top: 0;
   width: 12em;
 }

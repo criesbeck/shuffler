@@ -73,6 +73,9 @@
         ids.map(id => `<li id="${id}"><span>${items[id]}</span></li>`).join('');
     }
 
+    const audio = new Audio();
+    audio.src = './49306__fossa11__drumroll-trimmed.mp3';
+
     // re-position elements relative to their first position
     const arrange = (ids) => {
       ids.forEach((id, i) => {
@@ -85,6 +88,7 @@
     const update = () => {
       const ids = getIds();
       if (sameIds(ids, initIds)) {
+        audio.play();
         arrange(ids);
       }
       else {
