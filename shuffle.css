@@ -69,6 +69,7 @@ button {
 #c { background-color: chocolate; }  /* brown */
 #d { background-color: #ffdacc; } /* coral */
 #e { background-color: #614051; color: white; } /* eggplant */
+#h { background-color: #ff00ff; color: white; } /* fuschia */
 #f { background-color: gold; }  /* gold */
 #g { background-color: lime; }  /* green */
 #i { background-color: indigo; color: white; }   /* indigo */
@@ -80,4 +81,5 @@ button {
 #q { background-color: #FFC0CB; } /* pink */
 #r { background-color: red; }  /* red */
 #s { background-color: #9CAF88; } /* sage */
+#t { background-color: #008080; color: white; } /* teal */
 #y { background-color: yellow; }  /* yellow */
